@@ -18,8 +18,10 @@ import fs from 'fs';
 const input = fs.readFileSync(`./${args.input}`, 'utf8').split("\n").slice(0, -1);
 const numbers = input.map((s) => +s);
 
-import { findNumberOfIncreases } from "./sonar_sweep";
+import { findNumberOfIncreases, findNumberOfWindowIncreases } from "./sonar_sweep";
 
 if (args.part == "1") {
     console.log(findNumberOfIncreases(numbers));
+} else {
+    console.log(findNumberOfWindowIncreases(numbers));
 }

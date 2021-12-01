@@ -1,4 +1,4 @@
-import { findNumberOfIncreases } from "../../01/sonar_sweep";
+import { findNumberOfIncreases, findNumberOfWindowIncreases } from "../../01/sonar_sweep";
 
 test("Simple findNumberOfIncreases", () => {
   const actual = findNumberOfIncreases([1,2,3,4,5]);
@@ -19,4 +19,20 @@ test("Example findNumberOfIncreases", () => {
         263
     ]);
   expect(actual).toBe(7);
+});
+
+test("Example findNumberOfWindowIncreases", () => {
+  const actual = findNumberOfWindowIncreases([
+        199,
+        200,
+        208,
+        210,
+        200,
+        207,
+        240,
+        269,
+        260,
+        263
+    ]);
+  expect(actual).toBe(5);
 });
