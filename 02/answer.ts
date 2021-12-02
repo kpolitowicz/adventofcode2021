@@ -15,8 +15,9 @@ let args = yargs
 import fs from 'fs';
 const input = fs.readFileSync(`./${args.input}`, 'utf8');
 
-import { firstAnswer } from "./answerer";
+import { firstAnswer, secondAnswer } from "./answerer";
 if (args.part == "1") {
     console.log(firstAnswer(input));
 } else {
+    console.log(secondAnswer(input));
 }
