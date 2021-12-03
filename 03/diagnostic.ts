@@ -13,6 +13,7 @@ class Counter {
 
 export class DiagnosticCalculator {
     readings: Counter[] = [];
+    raw: string[] = [];
 
     add(reading: string): void {
         for (let i = 0; i < reading.length; i++) {
@@ -21,6 +22,7 @@ export class DiagnosticCalculator {
             }
             this.readings[i].add(reading.charAt(i));
         }
+        this.raw.push(reading);
     }
 
     // For each position, check which value occurs more often and take it,
@@ -54,5 +56,49 @@ export class DiagnosticCalculator {
 
         }
         return parseInt(binaryNumber, 2);
+    }
+
+    oxygenRating(): number {
+        let matchingReadings = this.raw;
+        for (let i = 0; i < this.readings.length; i++) {
+            let reading = this.readings[i];
+            let expectedBitValue = reading.zeroes > reading.ones ? '0' : '1'
+
+            matchingReadings = matchingReadings.filter((rawReading) => rawReading.charAt(i) == expectedBitValue);
+
+            if (matchingReadings.length > 1) {
+                this.readings = [];
+                this.raw = [];
+                for(let rawReading of matchingReadings) {
+                    this.add(rawReading);
+                }
+            } else {
+                break;
+            }
+        }
+
+        return parseInt(matchingReadings[0], 2);
+    }
+
+    scrubberRating(): number {
+        let matchingReadings = this.raw;
+        for (let i = 0; i < this.readings.length; i++) {
+            let reading = this.readings[i];
+            let expectedBitValue = reading.zeroes <= reading.ones ? '0' : '1'
+
+            matchingReadings = matchingReadings.filter((rawReading) => rawReading.charAt(i) == expectedBitValue);
+
+            if (matchingReadings.length > 1) {
+                this.readings = [];
+                this.raw = [];
+                for(let rawReading of matchingReadings) {
+                    this.add(rawReading);
+                }
+            } else {
+                break;
+            }
+        }
+
+        return parseInt(matchingReadings[0], 2);
     }
 }

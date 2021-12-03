@@ -20,15 +20,21 @@ test("Answer 1 example", () => {
     expect(actual).toBe(198);
 });
 
-// test("Answer 2 example", () => {
-//     const input = `forward 5
-// down 5
-// forward 8
-// up 3
-// down 8
-// forward 2
-// `
+test("Answer 2 example", () => {
+    const input = `00100
+11110
+10110
+10111
+10101
+01111
+00111
+11100
+10000
+11001
+00010
+01010
+`
 
-//     const actual = secondAnswer(input);
-//     expect(actual).toBe(900);
-// });
+    const actual = secondAnswer(input);
+    expect(actual).toBe(230);
+});

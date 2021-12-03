@@ -1,5 +1,14 @@
 import { DiagnosticCalculator } from "../../03/diagnostic";
 
+test("Adds entries to the state", () => {
+    let calc = new DiagnosticCalculator();
+    calc.add('01');
+    calc.add('10');
+    
+    expect(calc.raw.length).toBe(2);
+    expect(calc.raw[0]).toBe("01");
+});
+
 test("Counts bit values after each add", () => {
     let calc = new DiagnosticCalculator();
     calc.add('01');
@@ -31,4 +40,40 @@ test("Calculates epsilon rate", () => {
     
     // 100 are the less used bit values on each position
     expect(calc.epsilonRate()).toBe(4);
+});
+
+test("Calculates oxygen generator rating", () => {
+    let calc = new DiagnosticCalculator();
+    calc.add('00100');
+    calc.add('11110');
+    calc.add('10110');
+    calc.add('10111');
+    calc.add('10101');
+    calc.add('01111');
+    calc.add('00111');
+    calc.add('11100');
+    calc.add('10000');
+    calc.add('11001');
+    calc.add('00010');
+    calc.add('01010');
+    
+    expect(calc.oxygenRating()).toBe(23);
+});
+
+test("Calculates CO2 scrubber rating", () => {
+    let calc = new DiagnosticCalculator();
+    calc.add('00100');
+    calc.add('11110');
+    calc.add('10110');
+    calc.add('10111');
+    calc.add('10101');
+    calc.add('01111');
+    calc.add('00111');
+    calc.add('11100');
+    calc.add('10000');
+    calc.add('11001');
+    calc.add('00010');
+    calc.add('01010');
+    
+    expect(calc.scrubberRating()).toBe(10);
 });
