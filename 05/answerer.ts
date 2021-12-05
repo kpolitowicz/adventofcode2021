@@ -16,8 +16,13 @@ export function firstAnswer(input: string): number {
 
 export function secondAnswer(input: string): number {
     const parser = new InputParser();
-    const game = parser.parse(input);
+    const parsedInput = parser.parse(input);
 
+    let ventMap = new VentMap(parsedInput.maxX, parsedInput.maxY);
 
-    return 0;
+    for (let vent of parsedInput.ventLines) {
+        ventMap.addWithDiagonal(vent);
+    }
+
+    return ventMap.dangerousOverlaysCount(1);
 }
