@@ -23,11 +23,15 @@ export function secondAnswer(input: string): number {
 
     for (let number of game.numbers) {
         if (game.drawNext()) {
-            break;
+            if (game.boards.length == 1) {
+                break;
+            }
+            game.boards = game.boards.filter((b) => !b.bingo);
         }
     }
+    
     if (game.winningBoard != undefined) {
-        return game.lastNumber() * game.winningBoard.score();
+        return game.lastNumber() * game.boards[0].score();
     }
 
     return 0;

@@ -1,6 +1,7 @@
 export class BingoBoard {
    board: number[] = [];
    marks: boolean[] = new Array(25);
+   bingo = false;
 
    constructor(input: string[]) {
        for (let line of input) {
@@ -27,7 +28,8 @@ export class BingoBoard {
 
        if (idx != undefined) {
            this.marks[idx] = true;
-           return this.isBingo(idx);
+           this.bingo = this.isBingo(idx);
+           return this.bingo;
        }
 
        return false;
@@ -88,14 +90,13 @@ export class GameOfBingo {
         for (let board of this.boards) {
             if (board.draw(nextNumber)) {
                 this.winningBoard = board;
-                return true;
             }
         }
         this.nextNumberIndex++;
-        return false;
+        return (this.winningBoard != undefined);
     }
 
     lastNumber(): number {
-        return this.numbers[this.nextNumberIndex];
+        return this.numbers[this.nextNumberIndex - 1];
     }
 }
