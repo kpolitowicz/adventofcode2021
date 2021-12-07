@@ -8,10 +8,10 @@ test("Answer 1 example", () => {
     expect(actual).toBe(37);
 });
 
-// test("Answer 2 example", () => {
-//     const input = `16,1,2,0,4,2,7,1,2,14
-// `
+test("Answer 2 example", () => {
+    const input = `16,1,2,0,4,2,7,1,2,14
+`
 
-//     const actual = secondAnswer(input);
-//     expect(actual).toBe(26984457539);
-// });
+    const actual = secondAnswer(input);
+    expect(actual).toBe(168);
+});
