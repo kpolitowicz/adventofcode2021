@@ -1,4 +1,6 @@
+import { sum } from "../00/dummy";
 import { InputParser, ParsedInput } from "./input_parser";
+import { Decoder } from "./decoder"
 
 function countEasyDigits(entries: ParsedInput[]): number {
     let count = 0;
@@ -12,6 +14,15 @@ function countEasyDigits(entries: ParsedInput[]): number {
     return count;
 }
 
+function sumDecodedNumbers(entries: ParsedInput[]): number {
+    let sum = 0;
+    let decoder = new Decoder();
+    for (let entry of entries) {
+        sum += decoder.decode(entry.signalPatterns, entry.outputDigits);
+    }
+    return sum;
+}
+
 export function firstAnswer(input: string): number {
     const parser = new InputParser();
     const entries = parser.parse(input);
@@ -21,7 +32,7 @@ export function firstAnswer(input: string): number {
 
 export function secondAnswer(input: string): number {
     const parser = new InputParser();
-    const positions = parser.parse(input);
+    const entries = parser.parse(input);
 
-    return 0;
+    return sumDecodedNumbers(entries);
 }
