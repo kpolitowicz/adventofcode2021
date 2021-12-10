@@ -7,6 +7,10 @@ function sumRisks(list: number[]) {
     }
     return sum;
 }
+function multiplyThreeHighest(list: number[]) {
+    list.sort((a,b) => b - a)
+    return list[0] * list[1] * list[2];
+}
 
 export function firstAnswer(input: string): number {
     const parser = new InputParser();
@@ -17,7 +21,8 @@ export function firstAnswer(input: string): number {
 
 export function secondAnswer(input: string): number {
     const parser = new InputParser();
-    const positions = parser.parse(input);
+    const map = parser.parse(input);
 
-    return 0;
+    map.markAllBasins();
+    return multiplyThreeHighest(map.basinSizes);
 }
