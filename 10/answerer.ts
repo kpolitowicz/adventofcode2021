@@ -1,6 +1,6 @@
 import { InputParser } from "./input_parser";
 
-import { findIllegalChars, calcSyntaxScore } from "./checker";
+import { findIllegalChars, calcSyntaxScore, findIncompleteChunks, calcAutocompleteScore } from "./checker";
 
 export function firstAnswer(input: string): number {
     const parser = new InputParser();
@@ -12,7 +12,8 @@ export function firstAnswer(input: string): number {
 
 export function secondAnswer(input: string): number {
     const parser = new InputParser();
-    const positions = parser.parse(input);
+    const chunks = parser.parse(input);
 
-    return 0;
+    const incompleteChunks = findIncompleteChunks(chunks);
+    return calcAutocompleteScore(incompleteChunks);
 }
