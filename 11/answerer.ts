@@ -14,5 +14,13 @@ export function secondAnswer(input: string): number {
     const parser = new InputParser();
     const sim = parser.parse(input);
 
-    return 0;
+    let count = 0;
+    for (;;) {
+        count++;
+        sim.step();
+        if (sim.allFlashed()) {
+            break;
+        }
+    }
+    return count;
 }

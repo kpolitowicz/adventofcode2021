@@ -31,5 +31,5 @@ test("Answer 2 example", () => {
 `
 
     const actual = secondAnswer(input);
-    expect(actual).toBe(0);
+    expect(actual).toBe(195);
 });

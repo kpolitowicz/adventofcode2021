@@ -68,6 +68,17 @@ export class OctopusSim {
         }
     }
 
+    allFlashed(): boolean {
+        for (let x = 0; x < this.maxX; x++) {
+            for (let y = 0; y < this.maxY; y++) {
+                if (this.octopi[x][y] > 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     debug(): void {
         let s = '';
         for (let x = 0; x < this.maxX; x++) {
