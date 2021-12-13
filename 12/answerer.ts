@@ -12,5 +12,5 @@ export function secondAnswer(input: string): number {
     const parser = new InputParser();
     const network = parser.parse(input);
 
-    return 0;
+    return network.countPathsOneSmallTwice();
 }
