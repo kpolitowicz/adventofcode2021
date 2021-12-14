@@ -37,4 +37,30 @@ export class Paper {
 
         return `${newX}|${newY}`;
     }
+
+    inspect(): string {
+        let result = '';
+
+        let maxX = 0;
+        let maxY = 0;
+        this.dots.forEach((_, coord: string) => {
+            const [x, y] = coord.split('|').map((e) => +e);
+            if (x > maxX) { maxX = x; }
+            if (y > maxY) { maxY = y; }
+        });
+        
+        for (let xi = 0; xi <= maxX; xi++) {
+            // for (let yi = 0; yi <= maxY; yi++) {
+            for (let yi = maxY; yi >= 0; yi--) {
+                if (this.dots.has(`${xi}|${yi}`)) {
+                    result += '#';
+                } else {
+                    result += '.';
+                }
+            }
+            result += "\n";
+        }
+
+        return result;
+    }
 }

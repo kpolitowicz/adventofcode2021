@@ -52,6 +52,13 @@ fold along y=7
 fold along x=5
 `
 
+    const expectedOutput = `#####
+#...#
+#...#
+#...#
+#####
+`
+
     const actual = secondAnswer(input);
-    expect(actual).toBe(0);
+    expect(actual).toBe(expectedOutput);
 });

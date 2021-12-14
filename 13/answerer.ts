@@ -9,9 +9,13 @@ export function firstAnswer(input: string): number {
     return paper.dots.size;
 }
 
-export function secondAnswer(input: string): number {
+export function secondAnswer(input: string): string {
     const parser = new InputParser();
     const { paper: paper, folds: folds } = parser.parse(input);
 
-    return 0;
+    for (let fold of folds) {
+        paper.fold(fold);
+    }
+
+    return paper.inspect();
 }
