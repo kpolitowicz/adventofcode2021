@@ -47,5 +47,5 @@ CN -> C
 `
 
     const actual = secondAnswer(input);
-    expect(actual).toBe(0);
+    expect(actual).toBe(2188189693529);
 });
