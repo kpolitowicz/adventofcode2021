@@ -9,7 +9,8 @@ export function firstAnswer(input: string): number {
 
 export function secondAnswer(input: string): number {
     const parser = new InputParser()
-    const positions = parser.parse(input)
+    const cavern = parser.parse(input)
 
-    return 0
+    cavern.scale()
+    return cavern.djikstraDamnIt()
 }
