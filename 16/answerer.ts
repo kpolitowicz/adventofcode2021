@@ -21,6 +21,8 @@ export function firstAnswer(input: string): number {
 export function secondAnswer(input: string): number {
     const parser = new InputParser()
     const transmission = parser.parse(input)
+    const decoder = new PacketDecoder()
 
-    return 0
+    decoder.parseTransmission(transmission)
+    return decoder.compute(decoder.stack[0])
 }

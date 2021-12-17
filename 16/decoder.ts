@@ -2,17 +2,23 @@ export class Packet {
     version: number
     id: number
     value: number | null
+    subpackets: Packet[] = []
 
     constructor(version: number, id: number, value: number | null = null) {
         this.version = version
         this.id = id
         this.value = value
     }
+
+    add(packets: Packet[]) {
+        this.subpackets = packets
+    }
 }
 
 export class PacketDecoder {
     cursor = 0
     stack: Packet[] = []
+    directChildren: Packet[] = []
 
     parseTransmission(transmission: string, length: number | null = null, count: number | null = null) {
         let i = 1
@@ -42,7 +48,8 @@ export class PacketDecoder {
 
     parseOperatorPacket(transmission: string, version: number, id: number) {
         // push packet, then check what's inside
-        this.stack.push(new Packet(version, id))
+        let packet = new Packet(version, id)
+        // this.stack.push()
 
         const lenTypeId = transmission[this.cursor]
         this.cursor++
@@ -56,7 +63,10 @@ export class PacketDecoder {
             this.cursor += len
             const innerDecoder = new PacketDecoder()
             innerDecoder.parseTransmission(subtransmission, len)
+            packet.add(innerDecoder.directChildren)
+            this.stack.push(packet)
             this.stack.push(...innerDecoder.stack)
+            this.directChildren.push(packet)
         } else {
             // Gives the count of subpackets
             const cnt = parseInt(transmission.slice(this.cursor, this.cursor + 11), 2)
@@ -66,7 +76,10 @@ export class PacketDecoder {
             const subtransmission = transmission.slice(this.cursor)
             const innerDecoder = new PacketDecoder()
             innerDecoder.parseTransmission(subtransmission, null, cnt)
+            packet.add(innerDecoder.directChildren)
+            this.stack.push(packet)
             this.stack.push(...innerDecoder.stack)
+            this.directChildren.push(packet)
             this.cursor += innerDecoder.cursor
         }
     }
@@ -88,6 +101,43 @@ export class PacketDecoder {
             // stop if the last part of the number literal
             if (header == '0') { break }
         }
-        this.stack.push(new Packet(version, id, parseInt(numBinary, 2)))
+        const packet = new Packet(version, id, parseInt(numBinary, 2)) 
+        this.stack.push(packet)
+        this.directChildren.push(packet)
+    }
+
+    compute(fromPacket: Packet): number {
+        let num0: number
+        let num1: number
+        switch (fromPacket.id) {
+            case 0: 
+                let sum = 0
+                fromPacket.subpackets.forEach((p) => sum += this.compute(p))
+                return sum
+            case 1: 
+                let prod = 1
+                fromPacket.subpackets.forEach((p) => prod *= this.compute(p))
+                return prod
+            case 2: 
+                return Math.min(...fromPacket.subpackets.map((p) => this.compute(p)))
+            case 3: 
+                return Math.max(...fromPacket.subpackets.map((p) => this.compute(p)))
+            case 4: 
+                return fromPacket.value || -1
+            case 5: 
+                num0 = this.compute(fromPacket.subpackets[0])
+                num1 = this.compute(fromPacket.subpackets[1])
+                return (num0 > num1) ? 1 : 0
+            case 6: 
+                num0 = this.compute(fromPacket.subpackets[0])
+                num1 = this.compute(fromPacket.subpackets[1])
+                return (num0 < num1) ? 1 : 0
+            case 7: 
+                num0 = this.compute(fromPacket.subpackets[0])
+                num1 = this.compute(fromPacket.subpackets[1])
+                return (num0 == num1) ? 1 : 0
+        }
+
+        return -5
     }
 }

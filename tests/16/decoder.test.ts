@@ -47,6 +47,7 @@ test("Parses operator length packet with 2 numbers", () => {
     const opPacket = decoder.stack[0]
     expect(opPacket.version).toBe(1)
     expect(opPacket.id).toBe(6)
+    expect(opPacket.subpackets.length).toBe(2)
 
     const numPacket1 = decoder.stack[1]
     expect(numPacket1.value).toBe(10)
